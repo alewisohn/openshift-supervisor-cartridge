@@ -1,6 +1,11 @@
 [unix_http_server]
 file=<%= ENV['OPENSHIFT_SUPERVISOR_DIR'] %>run/supervisor.sock 
 
+[inet_http_server]
+port=<%= ENV['OPENSHIFT_SUPERVISOR_INTERNAL_IP'] %>:<%= ENV['OPENSHIFT_SUPERVISOR_INTERAL_PORT'] %>
+;username=user              ; (default is no username (open server))
+;password=123               ; (default is no password (open server))
+
 [rpcinterface:supervisor]
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 
@@ -15,4 +20,4 @@ pidfile=<%= ENV['OPENSHIFT_SUPERVISOR_DIR'] %>run/supervisord.pid
 serverurl=unix://<%= ENV['OPENSHIFT_SUPERVISOR_DIR'] %>run/supervisor.sock
 
 [include]
-files=<%= ENV['OPENSHIFT_REPO_DIR'] %>supervisord.conf
+files=<%= ENV['OPENSHIFT_REPO_DIR'] %>supervisord.conf <%=ENV['OPENSHIFT_REPO_DIR'] %>etc/supervisord.d/*.conf

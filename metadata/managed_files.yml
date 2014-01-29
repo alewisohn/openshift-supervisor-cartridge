@@ -1,14 +1,12 @@
 locked_files:
-#- bin
-#- bin/*
+- bin
+- bin/*
 - env/
 - env/*
-#- etc/
-#- etc/*
-#- etc/supervisord.conf
+- etc/
+- etc/*
+- etc/supervisord.conf
 - metadata/
 - metadata/*
-#- run/
-#- run/*
 processed_templates:
 - '**/*.erb'
