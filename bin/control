@@ -17,6 +17,9 @@
 #               Script was originally written by Jason Koppe <jkoppe@indeed.com>.
 #
 
+set -e
+set -a
+
 # source function library
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
@@ -24,13 +27,11 @@ VIRTUALENV=$OPENSHIFT_PYTHON_DIR/virtenv
 
 source $VIRTUALENV/bin/activate
 
-set -a
-
 SUPERVISORD=$VIRTUALENV/bin/supervisord
 SUPERVISORCTL=$VIRTUALENV/bin/supervisorctl
 
 PIDFILE=$OPENSHIFT_SUPERVISOR_DIR/run/supervisord.pid
-LOCKFILE=$OPENSHIFT_SUPERVISOR_DIR/supervisord
+LOCKFILE=$OPENSHIFT_SUPERVISOR_DIR/run/supervisord
 
 OPTIONS="-c $OPENSHIFT_SUPERVISOR_DIR/etc/supervisord.conf"
 echo $OPTIONS
@@ -65,52 +66,54 @@ running()
 }
 
 start() {
-        echo "Starting supervisord: "
+    echo "Starting supervisord: "
 	
-        if [ -e $PIDFILE ]; then 
+    if [ -e $PIDFILE ]; then 
 		echo "ALREADY STARTED"
 		return 1
 	fi
 
 	# start supervisord with options from sysconfig (stuff like -c)
-        $SUPERVISORD $OPTIONS
+    $SUPERVISORD $OPTIONS
 	
 	# show initial startup status
 	$SUPERVISORCTL $OPTIONS status
 	
 	# only create the subsyslock if we created the PIDFILE
-        [ -e $PIDFILE ] && touch $LOCKFILE
+    [ -e $PIDFILE ] && touch $LOCKFILE
 }
 
 stop() {
-        echo -n "Stopping supervisord: "
-        $SUPERVISORCTL $OPTIONS shutdown
-	if [ -n "$WAIT_FOR_SUBPROCESSES" ]; then 
-            echo "Waiting roughly 60 seconds for $PIDFILE to be removed after child processes exit"
-            for sleep in  2 2 2 2 4 4 4 4 8 8 8 8 last; do
-                if [ ! -e $PIDFILE ] ; then
-                    echo "Supervisord exited as expected in under $total_sleep seconds"
-                    break
-                else
-                    if [[ $sleep -eq "last" ]] ; then
-                        echo "Supervisord still working on shutting down. We've waited roughly 60 seconds, we'll let it do its thing from here"
-                        return 1
-                    else
-                        sleep $sleep
-                        total_sleep=$(( $total_sleep + $sleep ))
-                    fi
+    echo -n "Stopping supervisord: "
+    $SUPERVISORCTL $OPTIONS shutdown
 
+	if [ -n "$WAIT_FOR_SUBPROCESSES" ]; then 
+
+        echo "Waiting roughly 60 seconds for $PIDFILE to be removed after child processes exit"
+        for sleep in  2 2 2 2 4 4 4 4 8 8 8 8 last; do
+            if [ ! -e $PIDFILE ] ; then
+                echo "Supervisord exited as expected in under $total_sleep seconds"
+                break
+            else
+                if [[ $sleep -eq "last" ]] ; then
+                    echo "Supervisord still working on shutting down. We've waited roughly 60 seconds, we'll let it do its thing from here"
+                    return 1
+                else
+                    sleep $sleep
+                    total_sleep=$(( $total_sleep + $sleep ))
                 fi
-            done
+
+            fi
+        done
         fi
 
-        # always remove the subsys. We might have waited a while, but just remove it at this point.
-        rm -f $LOCKFILE
+    # always remove the subsys. We might have waited a while, but just remove it at this point.
+    rm -f $LOCKFILE
 }
 
 restart() {
-        stop
-        start
+    stop
+    start
 }
 
 catchall() {
