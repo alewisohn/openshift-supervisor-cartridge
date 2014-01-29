@@ -3,21 +3,22 @@ Cartridge-Short-Name: SUPERVISOR
 Display-Name: Supervisor
 Source-Url: https://github.com/alewisohn/openshift-supervisor-cartridge.git
 Description: "A cartridge for running Supervisor."
+Vendor: Andrew Lewisohn
 Version: '0.1'
 Cartridge-Version: 0.1.0
 Cartridge-Vendor: alewisohn
 Categories:
-- embedded
-- plugin
+  - embedded
+  - plugin
 Group-Overrides:
-- components:
-  - web_framework
-  - supervisor
+  - components:
+    - web_framework
+    - supervisor
 Provides:
-- supervisorctl
-- supervisord
+  - supervisorctl
+  - supervisord
 Requires:
-- python
+  - python
 Subscribes:
   set-env:
     Type: ENV:*
