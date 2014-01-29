@@ -131,7 +131,7 @@ case "$1" in
         RETVAL=$?
         ;;
     status)
-        $SUPERVISORCTL status
+        output=$SUPERVISORCTL status
         if running ; then
             RETVAL=0
         else
