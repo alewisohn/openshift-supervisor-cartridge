@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
+
+pip install supervisor==3.0

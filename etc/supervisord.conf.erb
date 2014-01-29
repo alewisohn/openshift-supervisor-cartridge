@@ -1,0 +1,18 @@
+[unix_http_server]
+file=<%= ENV['OPENSHIFT_SUPERVISOR_DIR'] %>run/supervisor.sock 
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisord]
+logfile=<%= ENV['OPENSHIFT_SUPERVISOR_DIR'] %>logs/supervisord.log 
+logfile_maxbytes=50MB
+logfile_backups=5
+loglevel=info
+pidfile=<%= ENV['OPENSHIFT_SUPERVISOR_DIR'] %>run/supervisord.pid
+
+[supervisorctl]
+serverurl=unix://<%= ENV['OPENSHIFT_SUPERVISOR_DIR'] %>run/supervisor.sock
+
+[include]
+files=<%= ENV['OPENSHIFT_REPO_DIR'] %>supervisord.conf
