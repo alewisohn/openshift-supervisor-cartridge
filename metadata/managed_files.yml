@@ -1,6 +1,6 @@
 locked_files:
 - bin
-- bin/*
+#- bin/*
 - env/
 - env/*
 - etc/
