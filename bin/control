@@ -33,12 +33,10 @@ PIDFILE=$OPENSHIFT_SUPERVISOR_DIR/run/supervisord.pid
 LOCKFILE=$OPENSHIFT_SUPERVISOR_DIR/supervisord
 
 OPTIONS="-c $OPENSHIFT_SUPERVISOR_DIR/etc/supervisord.conf"
+echo $OPTIONS
 
 # unset this variable if you don't care to wait for child processes to shutdown before removing the $LOCKFILE-lock
 WAIT_FOR_SUBPROCESSES=yes
-
-# remove this if you manage number of open files in some other fashion
-ulimit -n 96000
 
 RETVAL=0
 
