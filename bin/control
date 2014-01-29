@@ -21,6 +21,9 @@ set -e
 set -a
 
 # source function library
+source /etc/rc.d/init.d/functions
+
+# source cartridge sdk
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 VIRTUALENV=$OPENSHIFT_PYTHON_DIR/virtenv
@@ -34,7 +37,6 @@ PIDFILE=$OPENSHIFT_SUPERVISOR_DIR/run/supervisord.pid
 LOCKFILE=$OPENSHIFT_SUPERVISOR_DIR/run/supervisord
 
 OPTIONS="-c $OPENSHIFT_SUPERVISOR_DIR/etc/supervisord.conf"
-echo $OPTIONS
 
 # unset this variable if you don't care to wait for child processes to shutdown before removing the $LOCKFILE-lock
 WAIT_FOR_SUBPROCESSES=yes
