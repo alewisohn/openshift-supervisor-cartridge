@@ -18,10 +18,9 @@
 #
 
 # source function library
-
-VIRTUALENV = $OPENSHIFT_PYTHON_DIR/virtenv
-
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+VIRTUALENV=$OPENSHIFT_PYTHON_DIR/virtenv
 
 source $VIRTUALENV/bin/activate
 
@@ -42,7 +41,6 @@ WAIT_FOR_SUBPROCESSES=yes
 ulimit -n 96000
 
 RETVAL=0
-
 
 running_pid()
 {
