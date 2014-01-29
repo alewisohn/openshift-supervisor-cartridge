@@ -5,7 +5,7 @@ Source-Url: https://github.com/alewisohn/openshift-supervisor-cartridge.git
 Description: "A cartridge for running Supervisor."
 Version: '0.1'
 Cartridge-Version: 0.1.0
-Cartridge-Vendor: Andrew Lewisohn
+Cartridge-Vendor: alewisohn
 Categories:
 - embedded
 - plugin
