@@ -11,8 +11,8 @@ Categories:
 - plugin
 Group-Overrides:
 - components
-	- web_framework
-	- supervisor
+  - web_framework
+  - supervisor
 Provides:
 - supervisorctl
 - supervisord
